@@ -1,3 +1,4 @@
+//不允许直接引用
 #if !defined ADBASE_CONFIG_HPP_  
 # error "Not allow include this header."
 #endif
@@ -17,28 +18,29 @@ namespace adbase {
 class IniConfig;
 class IniParse {
 public:
-	/// 读取并解析配置字符串
+	// 读取并解析配置字符串
 	static IniConfig load(const std::string &iniStr);
 
-	/// 读取并解析配置文件
+	// 读取并解析配置文件
 	static IniConfig loadFile(const std::string &filename);
 
-	/// 将配置写入到配置文件中
+	// 将配置写入到配置文件中
 	static void write(IniConfig &iniConfig, const std::string &filename);
 
+	//析构函数
 	virtual ~IniParse() {}
 
 private:
-	/// 判断是否是配置文件节名称
+	// 判断是否是配置文件节名称
 	static bool isSection(const std::string &str);
 
-	/// 解析节的名称
+	// 解析section
 	static std::string parseSection(const std::string &str);
 
-	/// 判断是否是配置项
+	// 判断是否是option
 	static bool isOption(const std::string &str);
 
-	/// 解析配置项
+	// 解析option
 	static std::pair<std::string, std::string> parseOption(const std::string &str);
 
 	/// 判断是否是配置文件中的注释
@@ -54,6 +56,7 @@ private:
 	static std::string createOption(const std::string &optionName, const std::string &optionValue);
 };
 
+//ini解析，读异常
 class IniParseReadException : public std::exception {
 public:
 	IniParseReadException(const char *msg) : message(msg) {}
@@ -64,6 +67,7 @@ private:
 	const char *message;
 };
 
+//ini解析，写异常
 class IniParseWriteException : public std::exception {
 public:
 	IniParseWriteException(const char *msg) : message(msg) {}

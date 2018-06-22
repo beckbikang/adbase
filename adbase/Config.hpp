@@ -18,6 +18,7 @@
  * #include <adbase/Config.hpp>
  * #include <adbase/Logging.hpp>
  * 
+ * //基本使用
  * int main() {
  *     std::string ini = "[http]\nhost=127.0.0.1\nport=80\ntimeout=3\ndaemon=yes\n";
  *     adbase::IniConfig config = adbase::IniParse::load(ini);

@@ -40,33 +40,37 @@ public:
 	/// 获取所有的节名称
 	std::vector<std::string> sections() const;
 
-	/// 获取某个节的配置项
+	/// 获取某个节的所有的选项
 	std::vector<std::string> options(const std::string &sectionName) const;
 
 	/// 设置某个节的配置项
 	void setOption(const std::string &sectionName, const std::string &optionName, const std::string &optionValue);
 
-	/// 删除某个节的配置
+	/// 删除某个section
 	void removeSection(const std::string &sectionName);
 
-	/// 删除某个节的配置项
+	/// 删除某个section option
 	void removeOption(const std::string &sectionName, const std::string &optionName);
 
-	/// 添加配置节点
+	/// 添加配置节点 section
 	void addSection(const std::string &sectionName);
 
-	/// 添加配置项
+	/// 添加配置项 section option
 	void addOption(const std::string &sectionName, const std::string &optionName, const std::string &optionValue);
 
-	/// 析构函数
+	// 虚析构函数
 	virtual ~IniConfig() {}
 
 private:
+	//定义类似的 string map[string][string]
 	std::map<std::string, std::map<std::string, std::string> > config;
+	//检测section是否可用
 	inline void validateSection(const std::string &sectionName) const;
+	//检测section-option是否可用
 	inline void validateOption(const std::string &sectionName, const std::string &optionName) const;
 };
 
+//option不可用异常
 class InvalidOptionException : public std::exception {
 public:
 	InvalidOptionException(const char *msg) : message(msg) {}
@@ -76,7 +80,7 @@ public:
 private:
 	const char *message;
 };
-
+//section不可用异常
 class InvalidSectionException : public std::exception {
 public:
 	InvalidSectionException(const char *msg) : message(msg) {}
@@ -86,7 +90,7 @@ public:
 private:
 	const char *message;
 };
-
+//重复option异常
 class DuplicateOptionException : public std::exception {
 public:
 	DuplicateOptionException(const char *msg) : message(msg) {}
@@ -97,6 +101,7 @@ private:
 	const char *message;
 };
 
+//重复section异常
 class DuplicateSectionException : public std::exception {
 public:
 	DuplicateSectionException(const char *msg) : message(msg) {}
@@ -108,7 +113,6 @@ private:
 };
 
 /*@}*/
-
 }
 
 #endif

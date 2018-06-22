@@ -3,6 +3,7 @@
 namespace adbase {
 // {{{ bool IniConfig::hasSection()
 
+//判断是否存在某个section
 bool IniConfig::hasSection(const std::string &sectionName) const {
     if (config.find(sectionName) == config.end()) {
         return false;
@@ -13,12 +14,14 @@ bool IniConfig::hasSection(const std::string &sectionName) const {
 
 // }}}
 // {{{ bool IniConfig::hasOption()
-
+//判断是否存在
 bool IniConfig::hasOption(const std::string &sectionName, const std::string &optionName) const {
     if (!hasSection(sectionName)) {
         return false;
     }
+    //at会作下标检查
     std::map<std::string, std::string> options = config.at(sectionName);
+    //找不到报错
     if (options.find(optionName) == options.end()) {
         return false;
     }
@@ -28,7 +31,7 @@ bool IniConfig::hasOption(const std::string &sectionName, const std::string &opt
 
 // }}}
 // {{{ std::string IniConfig::getOption()
-
+//获取option
 std::string IniConfig::getOption(const std::string &sectionName, const std::string &optionName) const {
     validateOption(sectionName, optionName);
 
@@ -37,7 +40,7 @@ std::string IniConfig::getOption(const std::string &sectionName, const std::stri
 
 // }}}
 // {{{ uint32_t IniConfig::getOptionUint32()
-
+//读取int32
 uint32_t IniConfig::getOptionUint32(const std::string &sectionName, const std::string &optionName) {
 	std::string value = getOption(sectionName, optionName);
 
@@ -52,7 +55,7 @@ uint32_t IniConfig::getOptionUint32(const std::string &sectionName, const std::s
 
 // }}}
 // {{{ uint64_t IniConfig::getOptionUint64()
-
+//读取int64
 uint64_t IniConfig::getOptionUint64(const std::string &sectionName, const std::string &optionName) {
 	std::string value = getOption(sectionName, optionName);
 
@@ -67,7 +70,7 @@ uint64_t IniConfig::getOptionUint64(const std::string &sectionName, const std::s
 
 // }}}
 // {{{ bool IniConfig::getOptionBool()
-
+//读取bool
 bool IniConfig::getOptionBool(const std::string &sectionName, const std::string &optionName) {
 	std::string value = getOption(sectionName, optionName);
 	if (value.compare("yes") == 0) {
@@ -79,7 +82,7 @@ bool IniConfig::getOptionBool(const std::string &sectionName, const std::string 
 
 // }}}
 // {{{ std::vector<std::string> IniConfig::sections() const
-
+//返回所有的section
 std::vector<std::string> IniConfig::sections() const {
     std::vector<std::string> sections;
     std::map<std::string, std::map<std::string, std::string> >::const_iterator i = config.begin();
@@ -91,7 +94,7 @@ std::vector<std::string> IniConfig::sections() const {
 
 // }}}
 // {{{ std::vector<std::string> IniConfig::options()
-
+//返回所有的options
 std::vector<std::string> IniConfig::options(const std::string &sectionName) const {
     validateSection(sectionName);
 
@@ -107,7 +110,7 @@ std::vector<std::string> IniConfig::options(const std::string &sectionName) cons
 
 // }}}
 // {{{ void IniConfig::setOption()
-
+//设置option
 void IniConfig::setOption(const std::string &sectionName, const std::string &optionName, const std::string &optionValue) {
     validateOption(sectionName, optionName);
 
@@ -117,7 +120,7 @@ void IniConfig::setOption(const std::string &sectionName, const std::string &opt
 
 // }}}
 // {{{ void IniConfig::removeSection()
-
+//删除所有的section
 void IniConfig::removeSection(const std::string &sectionName) {
     validateSection(sectionName);
 
@@ -126,7 +129,7 @@ void IniConfig::removeSection(const std::string &sectionName) {
 
 // }}}
 // {{{ void IniConfig::removeOption()
-
+//删除option
 void IniConfig::removeOption(const std::string &sectionName, const std::string &optionName) {
     validateOption(sectionName, optionName);
 
@@ -135,7 +138,7 @@ void IniConfig::removeOption(const std::string &sectionName, const std::string &
 
 // }}}
 // {{{ void IniConfig::addSection()
-
+//添加sction
 void IniConfig::addSection(const std::string &sectionName) {
     if (hasSection(sectionName)) {
         std::string msg = "Duplicate section (" + sectionName + ") found";
@@ -148,7 +151,7 @@ void IniConfig::addSection(const std::string &sectionName) {
 
 // }}}
 // {{{ void IniConfig::addOption()
-
+//添加option
 void IniConfig::addOption(const std::string &sectionName, const std::string &optionName, const std::string &optionValue) {
     validateSection(sectionName);
 
@@ -162,7 +165,7 @@ void IniConfig::addOption(const std::string &sectionName, const std::string &opt
 
 // }}}
 // {{{ void IniConfig::validateOption()
-
+//不可用就抛出异常
 void IniConfig::validateOption(const std::string &sectionName, const std::string &optionName) const {
     if (!hasOption(sectionName, optionName)) {
         std::string msg = "Section (" + sectionName + "), Option (" + optionName + ") not found";
@@ -172,7 +175,7 @@ void IniConfig::validateOption(const std::string &sectionName, const std::string
 
 // }}}
 // {{{ void IniConfig::validateSection()
-
+//不可用就抛出异常
 void IniConfig::validateSection(const std::string &sectionName) const {
     if (!hasSection(sectionName)) {
         std::string msg = "Section (" + sectionName + ") not found";
